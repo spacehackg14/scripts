@@ -1,0 +1,262 @@
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PRE- PROCESADO DE DATOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# LIBRERÍAS
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+# Importar el data set
+dataset = pd.read_csv('C:/Users/ADMIN/Desktop/dataset_hack.csv')
+dataset.head()
+
+#ENTRADAS
+X = dataset.iloc[:, 0:7].values 
+print(X)
+
+# Codificar datos categóricos de X           #Ésto debido a que tenemos algunas variables categóricas representadas por palabras o string.
+from sklearn.preprocessing import LabelEncoder
+
+labelencoder_X_0 = LabelEncoder()                   
+X[:, 0] = labelencoder_X_0.fit_transform(X[:, 0]) 
+labelencoder_X_1 = LabelEncoder()                   
+X[:, 1] = labelencoder_X_1.fit_transform(X[:, 1]) 
+labelencoder_X_3 = LabelEncoder()                   
+X[:, 3] = labelencoder_X_3.fit_transform(X[:, 3])  
+labelencoder_X_4 = LabelEncoder()                   
+X[:, 4] = labelencoder_X_4.fit_transform(X[:, 4])  
+labelencoder_X_5 = LabelEncoder()                   
+X[:, 5] = labelencoder_X_5.fit_transform(X[:, 5])  
+labelencoder_X_6 = LabelEncoder()                   
+X[:, 6] = labelencoder_X_6.fit_transform(X[:, 6])  
+print(X)
+
+#SALIDAS
+y1 = dataset.iloc[:, 7:8].values  
+print(y1)
+
+y2 = dataset.iloc[:, 8:9].values  
+print(y2)
+
+y3 = dataset.iloc[:, 9:10].values  
+print(y3)
+
+y4 = dataset.iloc[:, 10:11].values  
+print(y4)
+
+y5 = dataset.iloc[:, 11:12].values  
+print(y5)
+
+y6 = dataset.iloc[:, 12:13].values  
+print(y6)
+
+y7 = dataset.iloc[:, 13:14].values  
+print(y7)
+
+# Codificar datos categóricos de y 
+labelencoder_y1_0 = LabelEncoder()                   
+y1[:, 0] = labelencoder_y1_0.fit_transform(y1[:, 0])
+
+labelencoder_y2_0 = LabelEncoder()                   
+y2[:, 0] = labelencoder_y2_0.fit_transform(y2[:, 0])
+
+labelencoder_y3_0 = LabelEncoder()                   
+y3[:, 0] = labelencoder_y3_0.fit_transform(y3[:, 0])
+
+labelencoder_y4_0 = LabelEncoder()                   
+y4[:, 0] = labelencoder_y4_0.fit_transform(y4[:, 0])
+
+labelencoder_y5_0 = LabelEncoder()                   
+y5[:, 0] = labelencoder_y5_0.fit_transform(y5[:, 0])
+
+labelencoder_y6_0 = LabelEncoder()                   
+y6[:, 0] = labelencoder_y6_0.fit_transform(y6[:, 0])
+
+labelencoder_y7_0 = LabelEncoder()                   
+y7[:, 0] = labelencoder_y7_0.fit_transform(y7[:, 0])
+
+print(y1)
+print(y2)
+print(y3)
+print(y4)
+print(y5)
+print(y6)
+print(y7)
+
+
+# Dividir el data set en conjunto de entrenamiento y conjunto de testing
+from sklearn.model_selection import train_test_split
+X_train, X_test, y1_train, y1_test = train_test_split(X, y1, test_size = 0.2, random_state = 0)
+
+X_train, X_test, y2_train, y2_test = train_test_split(X, y2, test_size = 0.2, random_state = 0)
+
+X_train, X_test, y3_train, y3_test = train_test_split(X, y3, test_size = 0.2, random_state = 0)
+
+X_train, X_test, y4_train, y4_test = train_test_split(X, y4, test_size = 0.2, random_state = 0)
+
+X_train, X_test, y5_train, y5_test = train_test_split(X, y5, test_size = 0.2, random_state = 0)
+
+X_train, X_test, y6_train, y6_test = train_test_split(X, y6, test_size = 0.2, random_state = 0)
+
+X_train, X_test, y7_train, y7_test = train_test_split(X, y7, test_size = 0.2, random_state = 0)
+
+# Escalado de variables
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
+X_train = sc_X.fit_transform(X_train)
+X_test = sc_X.transform(X_test)
+print(X_test)
+
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONSTRUCCIÓN DE LA RNA %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# Importar Keras y librerías adicionales
+import keras
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.layers import Dropout
+
+# Inicializar la RNA
+classifier1 = Sequential()
+classifier2 = Sequential()
+classifier3 = Sequential()
+classifier4 = Sequential()
+classifier5 = Sequential()
+classifier6 = Sequential()
+classifier7 = Sequential()
+
+# Añadir las capas de entrada y primera capa oculta
+classifier1.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu", input_dim = 7)) #units: #nodos que habrá en la sig. capa 
+classifier1.add(Dropout(p = 0.1))                               #kernel_init..:elij con qué distrib. se generan los pesos al inicio del algoritmo
+                                                               #input_dim: #nodos capa actual--># de columnas o var independientes
+                                                               #activation: func de activ:relu(rectific. lineal unitario: neurona se activa o no)
+# Añadir la segunda capa oculta
+classifier1.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu"))
+classifier1.add(Dropout(p = 0.1))
+
+# Añadir la capa de salida
+classifier1.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "softmax"))
+
+# Añadir las capas de entrada y primera capa oculta
+classifier2.add(Dense(units =7 , kernel_initializer = "uniform",  activation = "relu", input_dim = 7))#units: #nodos que habrá en la sig. capa 
+classifier2.add(Dropout(p = 0.1))                               
+
+# Añadir la segunda capa oculta
+classifier2.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu"))
+classifier2.add(Dropout(p = 0.1))
+
+# Añadir la capa de salida
+classifier2.add(Dense(units = 1, kernel_initializer = "uniform",  activation = "softmax"))
+
+# Añadir las capas de entrada y primera capa oculta
+classifier3.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu", input_dim = 7))#units: #nodos que habrá en la sig. capa 
+classifier3.add(Dropout(p = 0.1))                               
+
+# Añadir la segunda capa oculta
+classifier3.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu"))
+classifier3.add(Dropout(p = 0.1))
+
+# Añadir la capa de salida
+classifier3.add(Dense(units = 1, kernel_initializer = "uniform",  activation = "softmax"))
+
+# Añadir las capas de entrada y primera capa oculta
+classifier4.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu", input_dim = 7))#units: #nodos que habrá en la sig. capa 
+classifier4.add(Dropout(p = 0.1))                               
+
+# Añadir la segunda capa oculta
+classifier4.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu"))
+classifier4.add(Dropout(p = 0.1))
+
+# Añadir la capa de salida
+classifier4.add(Dense(units = 1, kernel_initializer = "uniform",  activation = "softmax"))
+
+# Añadir las capas de entrada y primera capa oculta
+classifier5.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu", input_dim = 7))#units: #nodos que habrá en la sig. capa 
+classifier5.add(Dropout(p = 0.1))                               
+
+# Añadir la segunda capa oculta
+classifier5.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu"))
+classifier5.add(Dropout(p = 0.1))
+
+# Añadir la capa de salida
+classifier5.add(Dense(units = 1, kernel_initializer = "uniform",  activation = "softmax"))
+
+# Añadir las capas de entrada y primera capa oculta
+classifier6.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu", input_dim = 7))#units: #nodos que habrá en la sig. capa 
+classifier6.add(Dropout(p = 0.1))                               
+
+# Añadir la segunda capa oculta
+classifier6.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu"))
+classifier6.add(Dropout(p = 0.1))
+
+# Añadir la capa de salida
+classifier6.add(Dense(units = 1, kernel_initializer = "uniform",  activation = "softmax"))
+
+# Añadir las capas de entrada y primera capa oculta
+classifier7.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu", input_dim = 7))#units: #nodos que habrá en la sig. capa 
+classifier7.add(Dropout(p = 0.1))                               
+
+# Añadir la segunda capa oculta
+classifier7.add(Dense(units = 7, kernel_initializer = "uniform",  activation = "relu"))
+classifier7.add(Dropout(p = 0.1))
+
+# Añadir la capa de salida
+classifier7.add(Dense(units = 1, kernel_initializer = "uniform",  activation = "softmax"))
+
+# Compilar la RNA
+classifier1.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])  
+                                                        #metrics: lista de métricas que queremos evalúe nuestro modelo. 
+                                                        #accuracy: criterio de precisión para mejorar el rendimiento global del modelo
+
+classifier2.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"]) 
+classifier3.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"]) 
+classifier4.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"]) 
+classifier5.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"]) 
+classifier6.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"]) 
+classifier7.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"]) 
+
+# Ajustamos la RNA al Conjunto de Entrenamiento 
+classifier1.fit(X_train, y1_train,   batch_size = 5, epochs = 100)       #batch_size: en bloques de 5 en 5.
+
+classifier2.fit(X_train, y2_train,   batch_size = 5, epochs = 100)       
+classifier3.fit(X_train, y3_train,   batch_size = 5, epochs = 100)       
+classifier4.fit(X_train, y4_train,   batch_size = 5, epochs = 100)      
+classifier5.fit(X_train, y5_train,   batch_size = 5, epochs = 100)       
+classifier6.fit(X_train, y6_train,   batch_size = 5, epochs = 100)      
+classifier7.fit(X_train, y7_train,   batch_size = 5, epochs = 100)       
+
+
+#Predicción: el mejor en el caso 1
+new_prediction1 = classifier1.predict(sc_X.transform(np.array([[variable 1,0, 0,0 ,1,0,0,22,50,1,1]])))
+print(new_prediction1)
+print(new_prediction1 > 0.5) 
+
+#Predicción: el mejor en el caso 2
+new_prediction2 = classifier1.predict(sc_X.transform(np.array([[variable 1,0, 0,0 ,1,0,0,22,50,1,1]])))
+print(new_prediction2)
+print(new_prediction2 > 0.5) 
+
+#Predicción: el mejor en el caso 3
+new_prediction3 = classifier1.predict(sc_X.transform(np.array([[variable 1,0, 0,0 ,1,0,0,22,50,1,1]])))
+print(new_prediction3)
+print(new_prediction3 > 0.5) 
+
+#Predicción: el mejor en el caso 4
+new_prediction4 = classifier1.predict(sc_X.transform(np.array([[variable 1,0, 0,0 ,1,0,0,22,50,1,1]])))
+print(new_prediction4)
+print(new_prediction4 > 0.5) 
+
+#Predicción: el mejor en el caso 5
+new_prediction5 = classifier1.predict(sc_X.transform(np.array([[variable 1,0, 0,0 ,1,0,0,22,50,1,1]])))
+print(new_prediction5)
+print(new_prediction5 > 0.5) 
+
+#Predicción: el mejor en el caso 6
+new_prediction6 = classifier1.predict(sc_X.transform(np.array([[variable 1,0, 0,0 ,1,0,0,22,50,1,1]])))
+print(new_prediction6)
+print(new_prediction6 > 0.5) 
+
+#Predicción: el mejor en el caso 7
+new_prediction7 = classifier1.predict(sc_X.transform(np.array([[variable 1,0, 0,0 ,1,0,0,22,50,1,1]])))
+print(new_prediction7)
+print(new_prediction7 > 0.5) 
+
+
